@@ -1,6 +1,342 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+ <!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login — Dashboard Kec. Tikala</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Plus Jakarta Sans','Segoe UI',Arial,sans-serif;min-height:100vh;display:flex;overflow:hidden;background:#041828;}
+
+    .left{flex:1;position:relative;overflow:hidden;background:#041828;}
+    .right{width:360px;flex-shrink:0;background:#f8fafc;display:flex;flex-direction:column;justify-content:center;padding:2.5rem 2rem;position:relative;z-index:10;}
+    .right::before{content:'';position:absolute;top:0;bottom:0;left:0;width:4px;background:linear-gradient(180deg,#0e7490,#0369a1,#1d4ed8);}
+
+    @media(max-width:700px){
+      body{flex-direction:column;}
+      .left{min-height:260px;flex:none;}
+      .right{width:100%;padding:2rem 1.5rem;}
+    }
+
+    .sky{position:absolute;inset:0;background:#041828;}
+    .star-dot{position:absolute;background:#fff;border-radius:50%;animation:tw ease-in-out infinite;}
+    @keyframes tw{0%,100%{opacity:.9;}50%{opacity:.1;}}
+    .moon{position:absolute;top:10%;right:16%;width:44px;height:44px;border-radius:50%;background:#fff9e0;box-shadow:0 0 22px rgba(255,249,180,.5);}
+
+    .city-label{position:absolute;bottom:47%;left:0;right:0;text-align:center;padding:0 2rem;}
+    .city-label .sup{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(150,210,255,.55);margin-bottom:6px;}
+    .city-label h1{font-size:24px;font-weight:800;color:#fff;line-height:1.3;text-shadow:0 2px 16px rgba(0,0,0,.7);}
+    .city-label .sub{font-size:10px;color:rgba(150,210,255,.45);margin-top:6px;}
+
+    .city-wrap{position:absolute;bottom:45%;left:0;right:0;height:36%;}
+    .bridge-wrap{position:absolute;bottom:44%;left:0;right:0;height:30px;}
+
+    .sea{position:absolute;bottom:0;left:0;right:0;height:46%;background:#041e35;overflow:hidden;}
+    .sea-surface{position:absolute;top:0;left:0;right:0;height:4px;background:#0a3f60;}
+
+    .shimmer{position:absolute;height:1px;background:rgba(100,200,255,.18);animation:shim ease-in-out infinite;}
+    @keyframes shim{0%,100%{opacity:.18;}50%{opacity:.05;}}
+
+    .fish{position:absolute;animation:swim linear infinite;}
+    @keyframes swim{0%{transform:translateX(0) scaleX(1);}49%{transform:translateX(60vw) scaleX(1);}50%{transform:translateX(60vw) scaleX(-1);}100%{transform:translateX(0) scaleX(-1);}}
+    @keyframes swimB{0%{transform:translateX(0) scaleX(-1);}49%{transform:translateX(-55vw) scaleX(-1);}50%{transform:translateX(-55vw) scaleX(1);}100%{transform:translateX(0) scaleX(1);}}
+
+    .bubble{position:absolute;border-radius:50%;border:1px solid rgba(100,200,255,.3);animation:rise linear infinite;}
+    @keyframes rise{0%{transform:translateY(0);opacity:.4;}100%{transform:translateY(-150px);opacity:0;}}
+
+    .tagline{position:absolute;bottom:0;left:0;right:0;background:#020f1a;text-align:center;padding:7px;font-size:11px;color:rgba(150,210,255,.45);letter-spacing:1.2px;}
+
+    .badge{display:flex;align-items:center;gap:12px;background:#062135;border-radius:12px;padding:12px 16px;margin-bottom:1.4rem;}
+    .badge-icon{font-size:26px;}
+    .badge-txt span{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(150,210,255,.65);}
+    .badge-txt strong{display:block;font-size:15px;font-weight:700;color:#fff;line-height:1.25;}
+    .rp-title{font-size:19px;font-weight:800;color:#062135;margin-bottom:4px;}
+    .rp-sub{font-size:12px;color:#64748b;margin-bottom:1.5rem;}
+    .divline{display:flex;align-items:center;gap:8px;margin-bottom:1.4rem;}
+    .divline::before,.divline::after{content:'';flex:1;height:1px;background:#cbd5e1;}
+    .divline span{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#94a3b8;}
+    .flabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#334155;margin-bottom:6px;display:block;}
+    .fg{margin-bottom:1.1rem;}
+    .irow{position:relative;}
+    .irow input{width:100%;padding:11px 14px 11px 38px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:14px;color:#0f172a;background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;font-family:inherit;}
+    .irow input:focus{border-color:#0e7490;box-shadow:0 0 0 3px rgba(14,116,144,.12);}
+    .irow .iico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;color:#94a3b8;pointer-events:none;}
+    .pw-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#94a3b8;padding:0;line-height:1;}
+    .pw-eye:hover{color:#0e7490;}
+    .err{display:none;background:#fef2f2;border-left:3px solid #ef4444;border-radius:8px;color:#b91c1c;font-size:13px;padding:10px 12px;margin-bottom:1rem;}
+    .err.show{display:block;}
+    .btn-login{width:100%;padding:12px;background:#0e7490;color:#fff;font-size:15px;font-weight:700;border:none;border-radius:10px;cursor:pointer;margin-top:4px;letter-spacing:.3px;transition:background .2s,transform .1s;font-family:inherit;}
+    .btn-login:hover{background:#0c6880;}
+    .btn-login:active{transform:scale(.98);}
+    .footer-note{text-align:center;font-size:11px;color:#94a3b8;margin-top:1.6rem;line-height:1.7;}
+    .footer-note strong{color:#64748b;}
+  </style>
+</head>
+<body>
+
+<div class="left">
+  <div class="sky" id="sky"></div>
+  <div class="moon"></div>
+
+  <div class="city-wrap">
+    <svg width="100%" height="100%" viewBox="0 0 700 160" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0"   y="95"  width="40"  height="65"  fill="#061c2e"/>
+      <rect x="43"  y="72"  width="32"  height="88"  fill="#072031"/>
+      <rect x="78"  y="88"  width="26"  height="72"  fill="#061c2e"/>
+      <rect x="107" y="55"  width="36"  height="105" fill="#082438"/>
+      <rect x="113" y="50"  width="10"  height="8"   fill="#082438"/>
+      <line x1="118" y1="50" x2="118" y2="34" stroke="#0d4060" stroke-width="1.5"/>
+      <circle cx="118" cy="33" r="2.5" fill="#fbbf24" opacity=".85"/>
+      <rect x="147" y="68"  width="45"  height="92"  fill="#061c2e"/>
+      <rect x="157" y="60"  width="25"  height="10"  fill="#061c2e"/>
+      <rect x="196" y="48"  width="38"  height="112" fill="#082438"/>
+      <rect x="204" y="42"  width="8"   height="8"   fill="#082438"/>
+      <line x1="208" y1="42" x2="208" y2="26" stroke="#0d4060" stroke-width="1.5"/>
+      <circle cx="208" cy="25" r="2.5" fill="#fbbf24" opacity=".8"/>
+      <rect x="238" y="78"  width="30"  height="82"  fill="#072031"/>
+      <rect x="272" y="58"  width="55"  height="102" fill="#082438"/>
+      <rect x="282" y="50"  width="22"  height="10"  fill="#082438"/>
+      <rect x="290" y="43"  width="7"   height="9"   fill="#082438"/>
+      <line x1="293" y1="43" x2="293" y2="27" stroke="#0d4060" stroke-width="1.5"/>
+      <circle cx="293" cy="26" r="2.5" fill="#fbbf24" opacity=".8"/>
+      <rect x="330" y="84"  width="32"  height="76"  fill="#061c2e"/>
+      <rect x="366" y="62"  width="44"  height="98"  fill="#072031"/>
+      <rect x="376" y="55"  width="15"  height="9"   fill="#072031"/>
+      <rect x="414" y="88"  width="28"  height="72"  fill="#061c2e"/>
+      <rect x="446" y="55"  width="50"  height="105" fill="#082438"/>
+      <rect x="455" y="48"  width="12"  height="9"   fill="#082438"/>
+      <line x1="461" y1="48" x2="461" y2="32" stroke="#0d4060" stroke-width="1.5"/>
+      <circle cx="461" cy="31" r="2.5" fill="#fbbf24" opacity=".85"/>
+      <rect x="500" y="76"  width="36"  height="84"  fill="#072031"/>
+      <rect x="540" y="60"  width="42"  height="100" fill="#082438"/>
+      <rect x="549" y="53"  width="10"  height="8"   fill="#082438"/>
+      <line x1="554" y1="53" x2="554" y2="37" stroke="#0d4060" stroke-width="1.5"/>
+      <circle cx="554" cy="36" r="2.5" fill="#fbbf24" opacity=".8"/>
+      <rect x="585" y="82"  width="30"  height="78"  fill="#061c2e"/>
+      <rect x="618" y="66"  width="45"  height="94"  fill="#072031"/>
+      <rect x="666" y="90"  width="34"  height="70"  fill="#061c2e"/>
+      <rect x="47"  y="78"  width="5"  height="3"  fill="#fbbf24" opacity=".7"/>
+      <rect x="57"  y="78"  width="5"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="47"  y="88"  width="5"  height="3"  fill="#93c5fd" opacity=".6"/>
+      <rect x="111" y="62"  width="5"  height="3"  fill="#fbbf24" opacity=".8"/>
+      <rect x="121" y="62"  width="5"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="111" y="72"  width="5"  height="3"  fill="#93c5fd" opacity=".65"/>
+      <rect x="200" y="56"  width="6"  height="3"  fill="#fbbf24" opacity=".85"/>
+      <rect x="211" y="56"  width="6"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="200" y="66"  width="6"  height="3"  fill="#93c5fd" opacity=".6"/>
+      <rect x="277" y="65"  width="6"  height="3"  fill="#fbbf24" opacity=".8"/>
+      <rect x="288" y="65"  width="6"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="277" y="75"  width="6"  height="3"  fill="#93c5fd" opacity=".7"/>
+      <rect x="371" y="70"  width="6"  height="3"  fill="#fbbf24" opacity=".7"/>
+      <rect x="382" y="70"  width="6"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="371" y="80"  width="6"  height="3"  fill="#93c5fd" opacity=".6"/>
+      <rect x="450" y="62"  width="6"  height="3"  fill="#fbbf24" opacity=".9"/>
+      <rect x="462" y="62"  width="6"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="450" y="72"  width="6"  height="3"  fill="#93c5fd" opacity=".65"/>
+      <rect x="544" y="68"  width="6"  height="3"  fill="#fbbf24" opacity=".8"/>
+      <rect x="555" y="68"  width="6"  height="3"  fill="#93c5fd" opacity=".7"/>
+      <rect x="544" y="78"  width="6"  height="3"  fill="#fbbf24" opacity=".5"/>
+      <rect x="622" y="74"  width="6"  height="3"  fill="#fbbf24" opacity=".75"/>
+      <rect x="634" y="74"  width="6"  height="3"  fill="#fbbf24" opacity=".5"/>
+    </svg>
+  </div>
+
+  <div class="bridge-wrap">
+    <svg width="100%" height="100%" viewBox="0 0 700 30" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="19" width="700" height="6" fill="#082438"/>
+      <rect x="200" y="4"  width="10" height="21" fill="#0a3050"/>
+      <rect x="195" y="3"  width="20" height="5"  fill="#0a3050"/>
+      <circle cx="205" cy="3" r="3" fill="#fbbf24" opacity=".9"/>
+      <rect x="490" y="4"  width="10" height="21" fill="#0a3050"/>
+      <rect x="485" y="3"  width="20" height="5"  fill="#0a3050"/>
+      <circle cx="495" cy="3" r="3" fill="#fbbf24" opacity=".9"/>
+      <line x1="205" y1="4" x2="0"   y2="22" stroke="#0d4060" stroke-width="1"/>
+      <line x1="205" y1="4" x2="100" y2="21" stroke="#0d4060" stroke-width="1"/>
+      <line x1="205" y1="4" x2="350" y2="20" stroke="#0d4060" stroke-width="1"/>
+      <line x1="495" y1="4" x2="350" y2="20" stroke="#0d4060" stroke-width="1"/>
+      <line x1="495" y1="4" x2="600" y2="21" stroke="#0d4060" stroke-width="1"/>
+      <line x1="495" y1="4" x2="700" y2="22" stroke="#0d4060" stroke-width="1"/>
+      <circle cx="100" cy="21" r="1.5" fill="#fbbf24" opacity=".6"/>
+      <circle cx="350" cy="20" r="1.5" fill="#fbbf24" opacity=".6"/>
+      <circle cx="600" cy="21" r="1.5" fill="#fbbf24" opacity=".6"/>
+    </svg>
+  </div>
+
+  <div class="city-label">
+    <div class="sup">Kota Manado</div>
+    <h1>Si Tou Timou<br>Tumou Tou</h1>
+    <div class="sub">Sulawesi Utara · Indonesia</div>
+  </div>
+
+  <div class="sea">
+    <div class="sea-surface"></div>
+    <div class="shimmer" style="top:8%;left:5%;width:55%;animation-duration:2.8s;animation-delay:0s;"></div>
+    <div class="shimmer" style="top:20%;left:25%;width:40%;animation-duration:3.5s;animation-delay:1s;"></div>
+    <div class="shimmer" style="top:35%;left:0;width:75%;animation-duration:4s;animation-delay:.5s;"></div>
+    <div class="shimmer" style="top:55%;left:15%;width:50%;animation-duration:2.5s;animation-delay:1.5s;"></div>
+    <div class="shimmer" style="top:72%;left:5%;width:65%;animation-duration:3.2s;animation-delay:.8s;"></div>
+
+    <svg style="position:absolute;bottom:0;left:0;width:100%;height:100%;" viewBox="0 0 700 180" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="40"   cy="180" rx="30" ry="38" fill="#0d3550" opacity=".9"/>
+      <ellipse cx="28"   cy="168" rx="14" ry="20" fill="#0f4060" opacity=".8"/>
+      <ellipse cx="52"   cy="165" rx="12" ry="17" fill="#0c3a55" opacity=".8"/>
+      <rect x="22" y="142" width="5" height="38" fill="#0d3550" rx="2.5"/>
+      <ellipse cx="24" cy="140" rx="10" ry="6" fill="#1a6a80" opacity=".65"/>
+      <ellipse cx="24" cy="134" rx="7"  ry="4" fill="#1a8878" opacity=".55"/>
+      <ellipse cx="130"  cy="180" rx="25" ry="34" fill="#093045" opacity=".9"/>
+      <rect x="125" y="148" width="4" height="32" fill="#0a3550" rx="2"/>
+      <ellipse cx="127" cy="146" rx="9" ry="6"  fill="#1a6070" opacity=".65"/>
+      <ellipse cx="127" cy="139" rx="6" ry="4"  fill="#1a8070" opacity=".55"/>
+      <ellipse cx="240"  cy="180" rx="32" ry="42" fill="#0c3048" opacity=".9"/>
+      <ellipse cx="228"  cy="168" rx="15" ry="22" fill="#0e3a55" opacity=".8"/>
+      <ellipse cx="253"  cy="163" rx="14" ry="18" fill="#0d3550" opacity=".8"/>
+      <rect x="233" y="144" width="5" height="36" fill="#0d3550" rx="2.5"/>
+      <ellipse cx="235" cy="141" rx="11" ry="7"  fill="#1a6a80" opacity=".65"/>
+      <ellipse cx="235" cy="133" rx="8"  ry="5"  fill="#1a8878" opacity=".55"/>
+      <ellipse cx="380"  cy="180" rx="28" ry="36" fill="#093040" opacity=".9"/>
+      <rect x="375" y="146" width="4" height="34" fill="#0a3550" rx="2"/>
+      <ellipse cx="377" cy="144" rx="10" ry="7"  fill="#1a7080" opacity=".65"/>
+      <ellipse cx="377" cy="136" rx="7"  ry="4.5" fill="#1a8870" opacity=".55"/>
+      <ellipse cx="510"  cy="180" rx="30" ry="40" fill="#0d3550" opacity=".9"/>
+      <ellipse cx="499"  cy="167" rx="14" ry="20" fill="#0f4060" opacity=".8"/>
+      <ellipse cx="522"  cy="164" rx="13" ry="18" fill="#0c3a55" opacity=".8"/>
+      <rect x="503" y="144" width="5" height="36" fill="#0d3550" rx="2.5"/>
+      <ellipse cx="505" cy="141" rx="11" ry="7"  fill="#1a6070" opacity=".65"/>
+      <ellipse cx="505" cy="133" rx="7"  ry="4.5" fill="#1a8070" opacity=".55"/>
+      <ellipse cx="620"  cy="180" rx="25" ry="32" fill="#093040" opacity=".9"/>
+      <rect x="615" y="150" width="4" height="30" fill="#0a3550" rx="2"/>
+      <ellipse cx="617" cy="148" rx="9" ry="6"   fill="#1a8070" opacity=".6"/>
+      <ellipse cx="617" cy="141" rx="6" ry="4"   fill="#1a9878" opacity=".5"/>
+      <path d="M80,120 Q87,105 94,120 Q101,105 108,120" stroke="#1a6a50" stroke-width="2.5" fill="none" opacity=".65"/>
+      <path d="M290,108 Q297,93 304,108 Q311,93 318,108 Q325,93 332,108" stroke="#1a7a50" stroke-width="2.5" fill="none" opacity=".6"/>
+      <path d="M440,112 Q447,97 454,112 Q461,97 468,112" stroke="#1a6a50" stroke-width="2" fill="none" opacity=".6"/>
+      <path d="M570,105 Q577,90 584,105 Q591,90 598,105" stroke="#1a7a50" stroke-width="2.5" fill="none" opacity=".65"/>
+      <path d="M660,118 Q667,103 674,118 Q681,103 688,118" stroke="#1a6a50" stroke-width="2" fill="none" opacity=".55"/>
+    </svg>
+
+    <svg class="fish" style="width:28px;height:13px;top:28%;left:5%;animation-duration:13s;" viewBox="0 0 28 13" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="16" cy="6.5" rx="11" ry="5" fill="#e07b3a" opacity=".8"/>
+      <polygon points="4,6.5 0,1 0,12" fill="#e07b3a" opacity=".8"/>
+      <circle cx="22" cy="5" r="1.5" fill="#fff" opacity=".9"/>
+    </svg>
+    <svg style="position:absolute;width:20px;height:10px;top:52%;right:10%;animation-name:swimB;animation-duration:10s;animation-timing-function:linear;animation-iteration-count:infinite;" viewBox="0 0 28 13" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="16" cy="6.5" rx="11" ry="5" fill="#60c0c0" opacity=".75"/>
+      <polygon points="4,6.5 0,1 0,12" fill="#60c0c0" opacity=".75"/>
+      <circle cx="22" cy="5" r="1.5" fill="#fff" opacity=".9"/>
+    </svg>
+    <svg class="fish" style="width:22px;height:11px;top:70%;left:35%;animation-duration:16s;animation-delay:4s;" viewBox="0 0 28 13" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="16" cy="6.5" rx="11" ry="5" fill="#f0d060" opacity=".7"/>
+      <polygon points="4,6.5 0,1 0,12" fill="#f0d060" opacity=".7"/>
+      <circle cx="22" cy="5" r="1.5" fill="#fff" opacity=".9"/>
+    </svg>
+    <svg style="position:absolute;width:18px;height:9px;top:40%;right:25%;animation-name:swimB;animation-duration:11s;animation-delay:2s;animation-timing-function:linear;animation-iteration-count:infinite;" viewBox="0 0 28 13" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="16" cy="6.5" rx="11" ry="5" fill="#d06090" opacity=".7"/>
+      <polygon points="4,6.5 0,1 0,12" fill="#d06090" opacity=".7"/>
+      <circle cx="22" cy="5" r="1.5" fill="#fff" opacity=".9"/>
+    </svg>
+
+    <div class="bubble" style="left:10%;bottom:8%;width:6px;height:6px;animation-duration:4s;animation-delay:0s;"></div>
+    <div class="bubble" style="left:25%;bottom:5%;width:4px;height:4px;animation-duration:5.5s;animation-delay:1.2s;"></div>
+    <div class="bubble" style="left:45%;bottom:10%;width:5px;height:5px;animation-duration:3.8s;animation-delay:.7s;"></div>
+    <div class="bubble" style="left:60%;bottom:6%;width:3px;height:3px;animation-duration:4.5s;animation-delay:2.1s;"></div>
+    <div class="bubble" style="left:75%;bottom:12%;width:6px;height:6px;animation-duration:3.5s;animation-delay:.4s;"></div>
+    <div class="bubble" style="left:88%;bottom:7%;width:4px;height:4px;animation-duration:5s;animation-delay:1.8s;"></div>
+  </div>
+
+  <div class="tagline">🌊 Bunaken · Jembatan Soekarno · Kota Tinutuan · Sulawesi Utara</div>
+</div>
+
+<div class="right">
+  <div class="badge">
+    <div class="badge-icon">🏛</div>
+    <div class="badge-txt">
+      <span>Kecamatan Tikala</span>
+      <strong>Kota Manado</strong>
+    </div>
+  </div>
+  <div class="rp-title">Dashboard Penduduk A9</div>
+  <div class="rp-sub">Sistem Informasi Kependudukan · 2025</div>
+  <div class="divline"><span>Masuk ke Sistem</span></div>
+
+  <div class="err" id="errMsg">⚠️ Username atau password salah. Silakan coba lagi.</div>
+
+  <div class="fg">
+    <label class="flabel">Username</label>
+    <div class="irow">
+      <span class="iico">👤</span>
+      <input type="text" id="username" placeholder="Masukkan username" autocomplete="username"/>
+    </div>
+  </div>
+
+  <div class="fg">
+    <label class="flabel">Password</label>
+    <div class="irow">
+      <span class="iico">🔒</span>
+      <input type="password" id="password" placeholder="Masukkan password" autocomplete="current-password"/>
+      <button class="pw-eye" onclick="togglePw()" type="button" title="Tampilkan password">👁</button>
+    </div>
+  </div>
+
+  <button class="btn-login" onclick="doLogin()">Masuk →</button>
+
+  <div class="footer-note">
+    <strong>Pemerintah Kota Manado</strong><br>
+    Kecamatan Tikala · Sulawesi Utara<br>
+    © 2025 · Hak Cipta Dilindungi
+  </div>
+</div>
+
+<script>
+  /*
+   * AKUN LOGIN — ubah sesuai kebutuhan
+   * Format: "username": "password"
+   */
+  const ACCOUNTS = {
+    "admin":      "tikala2025",
+    "petugas":    "data1234",
+    "kecamatan":  "manado99"
+  };
+  const DASHBOARD_URL = "index.html";
+
+  const skyEl = document.getElementById('sky');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star-dot';
+    const sz = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*58}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s;`;
+    skyEl.appendChild(s);
+  }
+
+  function doLogin() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+    const err  = document.getElementById('errMsg');
+    if (ACCOUNTS[user] && ACCOUNTS[user] === pass) {
+      sessionStorage.setItem('tikala_auth', btoa(user + ':' + Date.now()));
+      window.location.href = DASHBOARD_URL;
+    } else {
+      err.classList.add('show');
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
+    }
+  }
+
+  function togglePw() {
+    const inp = document.getElementById('password');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+  if (sessionStorage.getItem('tikala_auth')) window.location.href = DASHBOARD_URL;
+</script>
+</body>
+</html>
  <script>
   <!DOCTYPE html>
 <html lang="id">
