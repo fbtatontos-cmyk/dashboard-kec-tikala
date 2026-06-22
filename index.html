@@ -519,3 +519,64 @@ render();
 </script>
 </body>
 </html>
+<div class="form-panel" id="formPanel">
+  <div class="form-panel-hdr">
+    <h2><i class="ti ti-edit"></i> Input data <span id="formKelLabel" style="color:var(--blue);"></span></h2>
+    <button class="toggle-btn" onclick="toggleForm()" id="toggleBtn">
+      <i class="ti ti-chevron-up" id="toggleIcon"></i> Sembunyikan
+    </button>
+  </div>
+  <div class="form-body" id="formBody">
+    <div class="periode-row">
+      <label><i class="ti ti-calendar" style="vertical-align:-2px;"></i> Periode</label>
+      <input id="inPeriode" type="text" placeholder="cth: Juni 2025">
+    </div>
+    <div class="subsec-label">Kepala Keluarga & Penduduk</div>
+    <div class="form-grid">
+      <div class="fg"><label><span class="lk">KK Laki-laki</span></label><input id="kkLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">KK Perempuan</span></label><input id="kkPr" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="lk">Penduduk Lk</span></label><input id="pdkLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Penduduk Pr</span></label><input id="pdkPr" type="number" placeholder="0" min="0"></div>
+    </div>
+    <div class="subsec-label">Status Perkawinan</div>
+    <div class="form-grid">
+      <div class="fg"><label><span class="lk">Kawin Lk</span></label><input id="kwLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Kawin Pr</span></label><input id="kwPr" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="lk">Blm Kawin Lk</span></label><input id="blLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Blm Kawin Pr</span></label><input id="blPr" type="number" placeholder="0" min="0"></div>
+    </div>
+    <div class="subsec-label">Agama & Aliran Kepercayaan</div>
+    <div class="form-grid">
+      <div class="fg"><label>Islam</label><input class="ag" data-i="0" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label>Kristen</label><input class="ag" data-i="1" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label>Katholik</label><input class="ag" data-i="2" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label>Hindu</label><input class="ag" data-i="3" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label>Budha</label><input class="ag" data-i="4" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label>Konghuchu</label><input class="ag" data-i="5" type="number" placeholder="0" min="0"></div>
+    </div>
+    <div class="subsec-label">Kewarganegaraan</div>
+    <div class="form-grid">
+      <div class="fg"><label><span class="lk">WNI Lk</span></label><input id="wniLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">WNI Pr</span></label><input id="wniPr" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="lk">WNA Lk</span></label><input id="wnaLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">WNA Pr</span></label><input id="wnaPr" type="number" placeholder="0" min="0"></div>
+    </div>
+    <div class="subsec-label">Mutasi Penduduk</div>
+    <div class="form-grid">
+      <div class="fg"><label><span class="lk">Lahir Lk</span></label><input id="lhrLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Lahir Pr</span></label><input id="lhrPr" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="lk">Mati Lk</span></label><input id="mtiLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Mati Pr</span></label><input id="mtiPr" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="lk">Pindah Lk</span></label><input id="pndLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Pindah Pr</span></label><input id="pndPr" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="lk">Datang Lk</span></label><input id="dtgLk" type="number" placeholder="0" min="0"></div>
+      <div class="fg"><label><span class="pr">Datang Pr</span></label><input id="dtgPr" type="number" placeholder="0" min="0"></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-save" onclick="saveAndRender()"><i class="ti ti-device-floppy"></i> Simpan &amp; tampilkan</button>
+      <button class="btn-clear" onclick="clearCurrent()"><i class="ti ti-trash"></i> Hapus data ini</button>
+    </div>
+  </div>
+</div>
+
+<div id="dashArea"></div>
