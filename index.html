@@ -34,12 +34,75 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 14px; }
   body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+   <div id="loginScreen" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#8B0E1E;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+">
+
+  <div style="
+  width:350px;
+  background:white;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  ">
+
+    <h2 style="margin-bottom:20px;color:#8B0E1E">
+      Login Dashboard Tikala
+    </h2>
+
+    <input
+      id="loginEmail"
+      type="email"
+      placeholder="Email"
+      style="
+      width:100%;
+      padding:12px;
+      margin-bottom:12px;
+      border:1px solid #ddd;
+      border-radius:6px;
+      ">
+
+    <input
+      id="loginPassword"
+      type="password"
+      placeholder="Password"
+      style="
+      width:100%;
+      padding:12px;
+      margin-bottom:15px;
+      border:1px solid #ddd;
+      border-radius:6px;
+      ">
+
+    <button
+      onclick="loginUser()"
+      style="
+      width:100%;
+      padding:12px;
+      background:#C0152A;
+      color:white;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      ">
+      Login
+    </button>
+
+    <p id="loginError"
+       style="color:red;margin-top:10px;font-size:13px">
+    </p>
+
+  </div>
+</div>
   }
 
   /* ── HEADER ── */
@@ -482,7 +545,18 @@
     <div class="periode-chip" id="periodeBadge">—</div>
   </div>
  <div class="header-right">
-  <span class="hdr-badge">Dashboard Penduduk</span>
+  <button onclick="logoutUser()"
+style="
+margin-left:10px;
+padding:8px 14px;
+background:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+color:#8B0E1E;">
+Logout
+</button>
 
   <button onclick="logout()" style="
     background:#fff;
@@ -608,24 +682,45 @@
 const SUPA_URL = 'https://pxuyryeenmrdlofaolkk.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4dXlyeWVlbm1yZGxvZmFvbGtrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNTY2NTYsImV4cCI6MjA5NzczMjY1Nn0.DJJxV1HfQDCtNhB1A8Do1peAvruYJSfF_ubCxpxRJfw';
 const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
-  async function checkAuth() {
-  const { data: { session } } = await supa.auth.getSession();
+ async function loginUser() {
 
-  if (!session) {
-    const email = prompt("Masukkan Email");
-    const password = prompt("Masukkan Password");
+  const email =
+    document.getElementById('loginEmail').value;
 
-    const { error } = await supa.auth.signInWithPassword({
+  const password =
+    document.getElementById('loginPassword').value;
+
+  const { error } =
+    await supa.auth.signInWithPassword({   
       email,
       password
     });
 
-    if (error) {
-      alert("Login gagal: " + error.message);
-      location.reload();
-      return false;
-    }
+  if (error) {
+    document.getElementById('loginError')
+      .textContent = error.message;
+    return;
   }
+
+  document.getElementById('loginScreen')
+    .style.display = 'none';
+
+  loadFromSupabase();
+}
+
+async function checkSession() {
+
+  const {
+    data: { session }
+  } = await supa.auth.getSession();
+
+  if (session) {
+    document.getElementById('loginScreen')
+      .style.display = 'none';
+
+    loadFromSupabase();
+  }
+}
 
   return true;
 }
@@ -888,7 +983,7 @@ document.head.appendChild(style);
   const ok = await checkAuth();
 
   if (ok) {
-    loadFromSupabase();
+   checkSession();
   }
 })();
 </script>
