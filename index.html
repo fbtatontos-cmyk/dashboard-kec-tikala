@@ -1167,25 +1167,7 @@ function goSlide(n) {
 }
 setInterval(() => goSlide((currentSlide + 1) % 4), 5000);
 checkSession();
-  // ── LOGIN SLIDESHOW ──────────────────────────────────
-const slideLabels = [
-  'Bunaken · Surga Bawah Laut Indonesia',
-  'Pantai Malalayang · Keindahan Teluk Manado',
-  'Gunung Klabat · Puncak Tertinggi Sulut',
-  'Kota Manado · Bumi Nyiur Melambai'
-];
-let currentSlide = 0;
-function goSlide(n) {
-  const slides = document.querySelectorAll('.login-bg-slide');
-  const dots   = document.querySelectorAll('.login-dot');
-  slides[currentSlide].classList.remove('active');
-  dots[currentSlide].classList.remove('active');
-  currentSlide = n;
-  slides[currentSlide].classList.add('active');
-  dots[currentSlide].classList.add('active');
-  document.getElementById('slideLabel').textContent = slideLabels[currentSlide];
-}
-setInterval(() => goSlide((currentSlide + 1) % 4), 5000);
+
 </script>
 </body>
 </html>
