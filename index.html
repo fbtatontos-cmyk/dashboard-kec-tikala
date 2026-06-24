@@ -39,80 +39,220 @@
     color: var(--text);
   }
 
-  /* ── LOGIN SCREEN ── */
-  #loginScreen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: var(--red-dark);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-  .login-box {
-    width: 360px;
-    background: #fff;
-    padding: 36px 32px;
-    border-radius: 14px;
-    box-shadow: 0 16px 48px rgba(0,0,0,.35);
-  }
-  .login-logo {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 24px;
-  }
-  .login-logo .logo-icon {
-    width: 44px; height: 44px;
-    background: var(--red-dark);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; color: var(--gold);
-  }
-  .login-logo .logo-text .t1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 18px; font-weight: 700;
-    color: var(--red-dark);
-  }
-  .login-logo .logo-text .t2 {
-    font-size: 11px; color: var(--text-3);
-    text-transform: uppercase; letter-spacing: 1px;
-  }
-  .login-box h2 {
-    font-size: 20px; font-weight: 700; color: var(--text);
-    margin-bottom: 4px;
-  }
-  .login-box p.sub { font-size: 13px; color: var(--text-3); margin-bottom: 24px; }
-  .login-field { margin-bottom: 14px; }
-  .login-field label {
-    display: block; font-size: 12px; font-weight: 600;
-    color: var(--text-2); margin-bottom: 6px;
-  }
-  .login-field input {
-    width: 100%; padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    font-size: 14px; font-family: 'Inter', sans-serif;
-    outline: none; transition: border-color .15s, box-shadow .15s;
-  }
-  .login-field input:focus {
-    border-color: var(--red);
-    box-shadow: 0 0 0 3px rgba(192,21,42,.1);
-  }
-  .btn-login {
-    width: 100%; padding: 11px;
-    background: linear-gradient(135deg, var(--red-light), var(--red-dark));
-    color: #fff; border: none; border-radius: 8px;
-    font-size: 14px; font-weight: 600;
-    cursor: pointer; margin-top: 8px;
-    box-shadow: 0 2px 8px rgba(192,21,42,.35);
-    transition: transform .1s, box-shadow .1s;
-  }
-  .btn-login:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(192,21,42,.4); }
-  .btn-login:active { transform: translateY(0); }
-  #loginError {
-    color: var(--red); margin-top: 10px;
-    font-size: 13px; min-height: 18px;
-  }
+ /* ── LOGIN SCREEN ── */
+#loginScreen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  z-index: 9999;
+  overflow: hidden;
+}
+.login-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.login-bg-slider {
+  width: 100%; height: 100%;
+  position: relative;
+}
+.login-bg-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1.8s ease-in-out;
+}
+.login-bg-slide.active { opacity: 1; }
+.login-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0,0,0,0.55) 0%,
+    rgba(0,0,0,0.15) 55%,
+    rgba(0,0,0,0.65) 100%
+  );
+  z-index: 1;
+}
+.login-left {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 55%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 48px 56px;
+}
+.login-city-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 30px;
+  padding: 6px 16px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  width: fit-content;
+}
+.login-city-badge .dot-pulse {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4ADE80;
+  animation: pulse-green 2s infinite;
+}
+@keyframes pulse-green {
+  0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
+  50% { box-shadow: 0 0 0 5px rgba(74,222,128,0); }
+}
+.login-big-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 62px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  margin-bottom: 12px;
+}
+.login-big-title span { color: var(--gold); }
+.login-desc {
+  font-size: 14px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.7;
+  max-width: 360px;
+  margin-bottom: 32px;
+}
+.login-dots {
+  display: flex; gap: 8px;
+}
+.login-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: all .3s;
+}
+.login-dot.active {
+  background: var(--gold);
+  width: 24px;
+  border-radius: 4px;
+}
+.login-slide-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.login-right {
+  position: relative;
+  z-index: 3;
+  width: 420px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-left: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 40px;
+}
+.login-box {
+  width: 100%;
+}
+.login-logo {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 32px;
+}
+.login-logo .logo-icon {
+  width: 48px; height: 48px;
+  background: var(--gold);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; color: var(--red-dark);
+  box-shadow: 0 4px 16px rgba(232,160,32,0.4);
+}
+.login-logo .logo-text .t1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px; font-weight: 800;
+  color: #fff;
+}
+.login-logo .logo-text .t2 {
+  font-size: 11px; color: rgba(255,255,255,0.6);
+  text-transform: uppercase; letter-spacing: 1.5px;
+}
+.login-box h2 {
+  font-size: 24px; font-weight: 700; color: #fff;
+  margin-bottom: 4px;
+}
+.login-box p.sub {
+  font-size: 13px; color: rgba(255,255,255,0.6);
+  margin-bottom: 28px;
+}
+.login-field { margin-bottom: 16px; }
+.login-field label {
+  display: block; font-size: 12px; font-weight: 600;
+  color: rgba(255,255,255,0.7); margin-bottom: 7px;
+  text-transform: uppercase; letter-spacing: 0.8px;
+}
+.login-field input {
+  width: 100%; padding: 12px 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  font-size: 14px; font-family: 'Inter', sans-serif;
+  outline: none;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.login-field input::placeholder { color: rgba(255,255,255,0.35); }
+.login-field input:focus {
+  border-color: var(--gold);
+  background: rgba(255,255,255,0.15);
+  box-shadow: 0 0 0 3px rgba(232,160,32,0.25);
+}
+.btn-login {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, var(--gold), #C87D10);
+  color: #fff; border: none; border-radius: 10px;
+  font-size: 14px; font-weight: 700;
+  cursor: pointer; margin-top: 8px;
+  box-shadow: 0 4px 20px rgba(232,160,32,0.45);
+  transition: transform .15s, box-shadow .15s;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(232,160,32,0.55);
+}
+.btn-login:active { transform: translateY(0); }
+#loginError {
+  color: #FCA5A5; margin-top: 12px;
+  font-size: 13px; min-height: 18px;
+  text-align: center;
+}
+.login-footer {
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 11px;
+  color: rgba(255,255,255,0.35);
+  text-align: center;
+}
 
   /* ── HEADER ── */
   .header {
@@ -546,50 +686,69 @@
 
 <!-- LOGIN SCREEN -->
 <div id="loginScreen">
-  <div class="login-box">
-    <div class="login-logo">
-      <div class="logo-icon"><i class="ti ti-building-community"></i></div>
-      <div class="logo-text">
-        <div class="t1">Kec. Tikala</div>
-        <div class="t2">Kota Manado</div>
+
+  <!-- Background slideshow -->
+  <div class="login-bg">
+    <div class="login-bg-slider" id="bgSlider">
+      <div class="login-bg-slide active" style="background-image:url('https://images.unsplash.com/photo-1596422846543-75c6fc197f11?w=1920&q=85')"></div>
+      <div class="login-bg-slide" style="background-image:url('https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=1920&q=85')"></div>
+      <div class="login-bg-slide" style="background-image:url('https://images.unsplash.com/photo-1573408301185-9519f94816b5?w=1920&q=85')"></div>
+      <div class="login-bg-slide" style="background-image:url('https://images.unsplash.com/photo-1504149585781-e89c00a13d4c?w=1920&q=85')"></div>
+    </div>
+    <div class="login-bg-overlay"></div>
+  </div>
+
+  <!-- Left panel — branding -->
+  <div class="login-left">
+    <div class="login-city-badge">
+      <span class="dot-pulse"></span>
+      Kota Manado · Sulawesi Utara
+    </div>
+    <div class="login-big-title">Kecamatan<br><span>Tikala</span></div>
+    <p class="login-desc">
+      Sistem Informasi Data Penduduk Kecamatan Tikala, Kota Manado.<br>
+      Data akurat · Tersimpan aman · Diperbarui real-time.
+    </p>
+    <div class="login-slide-label" id="slideLabel">Bunaken · Surga Bawah Laut Indonesia</div>
+    <div class="login-dots" id="loginDots">
+      <div class="login-dot active" onclick="goSlide(0)"></div>
+      <div class="login-dot" onclick="goSlide(1)"></div>
+      <div class="login-dot" onclick="goSlide(2)"></div>
+      <div class="login-dot" onclick="goSlide(3)"></div>
+    </div>
+  </div>
+
+  <!-- Right panel — form -->
+  <div class="login-right">
+    <div class="login-box">
+      <div class="login-logo">
+        <div class="logo-icon"><i class="ti ti-building-community"></i></div>
+        <div class="logo-text">
+          <div class="t1">Kec. Tikala</div>
+          <div class="t2">Kota Manado</div>
+        </div>
+      </div>
+      <h2>Selamat Datang</h2>
+      <p class="sub">Masuk untuk mengakses dashboard penduduk</p>
+      <div class="login-field">
+        <label>Email</label>
+        <input id="loginEmail" type="email" placeholder="email@tikala.go.id">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input id="loginPassword" type="password" placeholder="••••••••"
+               onkeydown="if(event.key==='Enter') loginUser()">
+      </div>
+      <button class="btn-login" onclick="loginUser()">
+        <i class="ti ti-login" style="vertical-align:-2px;margin-right:6px"></i> Masuk Sekarang
+      </button>
+      <p id="loginError"></p>
+      <div class="login-footer">
+        © 2025 Kecamatan Tikala · Kota Manado
       </div>
     </div>
-    <h2>Masuk ke Dashboard</h2>
-    <p class="sub">Silakan login untuk mengakses data penduduk</p>
-    <div class="login-field">
-      <label>Email</label>
-      <input id="loginEmail" type="email" placeholder="contoh@email.com">
-    </div>
-    <div class="login-field">
-      <label>Password</label>
-      <input id="loginPassword" type="password" placeholder="••••••••"
-             onkeydown="if(event.key==='Enter') loginUser()">
-    </div>
-    <button class="btn-login" onclick="loginUser()">
-      <i class="ti ti-login" style="vertical-align:-2px;margin-right:4px"></i> Login
-    </button>
-    <p id="loginError"></p>
   </div>
 </div>
-
-<!-- HEADER -->
-<header class="header">
-  <div class="header-logo">
-    <div class="logo-icon"><i class="ti ti-building-community"></i></div>
-    <div class="logo-text">
-      <div class="t1">Kec. Tikala</div>
-      <div class="t2">Kota Manado</div>
-    </div>
-  </div>
-  <div class="header-center">
-    <div class="header-title" id="pageTitle">Tikala Ares</div>
-    <div class="periode-chip" id="periodeBadge">—</div>
-  </div>
-  <div class="header-right">
-    <button class="btn-logout" onclick="logout()">
-      <i class="ti ti-logout"></i> Logout
-    </button>
-  </div>
 </header>
 
 <!-- LAYOUT -->
@@ -989,6 +1148,25 @@ function mutRow(lbl, col, lk, pr) {
 
 // ── INIT ─────────────────────────────────────────────
 checkSession();
+  // ── LOGIN SLIDESHOW ──────────────────────────────────
+const slideLabels = [
+  'Bunaken · Surga Bawah Laut Indonesia',
+  'Pantai Malalayang · Keindahan Teluk Manado',
+  'Gunung Klabat · Puncak Tertinggi Sulut',
+  'Kota Manado · Bumi Nyiur Melambai'
+];
+let currentSlide = 0;
+function goSlide(n) {
+  const slides = document.querySelectorAll('.login-bg-slide');
+  const dots   = document.querySelectorAll('.login-dot');
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = n;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+  document.getElementById('slideLabel').textContent = slideLabels[currentSlide];
+}
+setInterval(() => goSlide((currentSlide + 1) % 4), 5000);
 </script>
 </body>
 </html>
