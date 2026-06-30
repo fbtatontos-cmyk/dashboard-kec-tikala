@@ -1171,28 +1171,3 @@ function mutRow(lbl, col, lk, pr) {
   return `<div class="mut-row"><div class="mut-left"><span class="mut-dot" style="background:${col}"></span><span class="mut-lbl">${lbl}</span></div><div class="pills"><span class="pill pl-lk">Lk ${fmt(lk)}</span><span class="pill pl-pr">Pr ${fmt(pr)}</span><span class="pill pl-tot">${fmt(lk + pr)}</span></div></div>`;
 }
 
-// ── SLIDESHOW ─────────────────────────────────────────
-const slideLabels = [
-  'Bunaken · Surga Bawah Laut Indonesia',
-  'Pantai Malalayang · Keindahan Teluk Manado',
-  'Gunung Klabat · Puncak Tertinggi Sulut',
-  'Kota Manado · Bumi Nyiur Melambai'
-];
-let currentSlide = 0;
-function goSlide(n) {
-  const slides = document.querySelectorAll('.login-bg-slide');
-  const dots   = document.querySelectorAll('.login-dot');
-  slides[currentSlide].classList.remove('active');
-  dots[currentSlide].classList.remove('active');
-  currentSlide = n;
-  slides[currentSlide].classList.add('active');
-  dots[currentSlide].classList.add('active');
-  document.getElementById('slideLabel').textContent = slideLabels[currentSlide];
-}
-setInterval(() => goSlide((currentSlide + 1) % 4), 5000);
-
-// ── START ─────────────────────────────────────────────
-checkSession();
-</script>
-</body>
-</html>
